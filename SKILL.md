@@ -1,152 +1,152 @@
 ---
 name: ub-mode
 description: >
-  Follow the reduced principles when writing or changing code. Every change
-  follows First Make it Work, then Then Make it Right, then Follow Practice.
-  Use when the user runs /ub-mode or asks for the reduced principles.
+  编写或修改代码时遵循精简原则。每次改动都遵循：先让它跑起来，再把它做对，
+  然后遵循实践。当用户运行 /ub-mode 或要求使用精简原则时使用。
 ---
 
 # ub-mode
 
-Every time you are asked to make a change follow:
-* First Make it Work.
-* Then Make it Right.
-* Follow Practice
+每次被要求做改动时，遵循：
+* 先让它跑起来。
+* 再把它做对。
+* 遵循实践。
 
-# First Make it Work
+# 先让它跑起来
 
-## Laziness Protocol
+## 懒惰法则
 
-* One decision lives in one place.
-* Ship the smallest edit that solves the problem.
+* 一个决策只存在于一个地方。
+* 用能解决问题的最小改动交付。
 
-## Foundational Thinking
+## 基础思考
 
-* Get the data shape right before you write the logic.
-* Do first whatever helps every later phase.
-* If a concurrent writer would matter, do not share state.
+* 先把数据形状定对，再写逻辑。
+* 优先做对后续每个阶段都有帮助的事。
+* 如果并发写入会有影响，就不要共享状态。
 
 ## TDD
 
-* Write the failing test before you change the code.
-* See it fail for the reason you expect.
-* Make the smallest change that makes it pass.
-* If an honest test is impractical, do not write a bad one.
+* 在改代码之前，先写出会失败的测试。
+* 亲眼看到它以你预期的原因失败。
+* 用最小的改动让它通过。
+* 如果写不出真诚的测试，就不要写一个糟糕的测试凑数。
 
-## Redesign From First Principles
+## 从第一性原理重新设计
 
-* Do not bolt a new requirement onto the old design.
-* Ask what you would have built if it had been there from the start, think that through, and deliver it in pieces.
+* 不要把新需求硬拧到旧设计上。
+* 问自己：如果这个需求从一开始就在，你会怎么建？想清楚之后，分步交付。
 
-## Attack the Premise
+## 攻击前提
 
-* When two fixes that share one premise fail the same gate, write that premise in one sentence and count which actors hold the imbalance.
-* Remove the assignment.
-* Do not start another fix until you have done that.
+* 当两个共享同一前提的修复在同一道关卡上失败时，用一句话写下这个前提，
+  并数一数失衡集中在哪些角色身上。
+* 移除这项指派。
+* 在做完这件事之前，不要再开始下一个修复。
 
-## Subtract Before You Add
+## 先减后加
 
-* Take complexity out before you add anything.
+* 在添加任何东西之前，先把复杂度减掉。
 
-## Outcome-Oriented Execution
+## 面向结果的执行
 
-* Aim at the end state you can check.
-* A break in the middle is allowed when you planned it and can undo it.
+* 瞄准一个可以检验的最终状态。
+* 中途中断是允许的——前提是你计划过它，并且能撤销它。
 
-## Build the Lever
+## 打造杠杆
 
-* If the work is not obvious at a glance, build the tool that does it.
-* Do one unit by hand, then make the tool match that unit.
+* 如果一项工作一眼看不出怎么做，就造一个能完成它的工具。
+* 先手动做一个单元，再让工具照着这个单元做。
 
-## Architecture
+## 架构
 
-### Model the Domain
+### 为领域建模
 
-* Put the domain in a structure that makes the illegal states impossible.
-* Maintain a glossary of domain terms.
-* If the code is already clear and local, leave it.
+* 用一种让非法状态不可能出现的结构来表达领域。
+* 维护一份领域术语表。
+* 如果代码已经足够清晰且局部化，就保持原样。
 
-### Boundary Discipline
+### 边界纪律
 
-* Check the data where it enters.
-* Inside, trust it.
-* Keep the business logic in a pure function.
+* 在数据进入的地方校验。
+* 内部则信任它。
+* 把业务逻辑放进纯函数。
 
-### Type System Discipline
+### 类型系统纪律
 
-* Make the illegal value impossible to write.
-* Parse outside data once, where it comes in.
-* Do not silence the compiler.
+* 让非法值根本写不出来。
+* 在外部数据进入的地方解析一次。
+* 不要让编译器闭嘴。
 
-### Make Operations Idempotent
+### 让操作幂等
 
-* Running it twice, or running it after a crash halfway through, ends in the same state.
+* 执行两次，或中途崩溃后再执行，最终都到达同一个状态。
 
-### Separate Before Serializing Shared State
+### 共享状态先分离，再串行化
 
-* If they do not need the same mutable thing, give each its own.
-* If they do, allow one writer, and enforce that in the structure.
+* 如果它们并不需要同一个可变的东西，就各给一份。
+* 如果确实需要，就只允许一个写入者，并用结构来强制这一点。
 
-# Then Make it Right
+# 再把它做对
 
-## Fix Root Causes
+## 修复根因
 
-* Reproduce it.
-* Fix the cause.
-* A guard that only hides the crash is not a fix.
+* 复现它。
+* 修复原因。
+* 只是把崩溃藏起来的防护不是修复。
 
-## Sequence work into verifiable units
+## 把工作拆成可验证的单元
 
-* Finish one small unit and check it.
-* Then start the next.
+* 完成一个小单元，就验证一次。
+* 然后再开始下一个。
 
-## Test Behavior, Not Implementation
+## 测试行为，而非实现
 
-* The test calls the code the way its user does and checks the result that user would see.
-* If the test would still pass when every function returned nothing, throw it out.
+* 测试要像它的使用者那样调用代码，并检查使用者会看到的结果。
+* 如果每个函数都改成不返回任何值之后测试仍然通过，就把它扔掉。
 
 ## Crapper
 
-* Use the crapper tool
-* Reduce each function under  CRAP 10 by splitting it, by testing it, or both.
-* Consider whether case statements are worth reducing.
+* 使用 crapper 工具。
+* 通过拆分、加测试，或两者兼用，把每个函数的 CRAP 值降到 10 以下。
+* 权衡 case 分支语句是否值得缩减。
 
 ## Dryer
 
-* Use the dryer tool to eliminate duplication that rank 0.8 or above.
+* 使用 dryer 工具消除相似度达到 0.8 及以上的重复代码。
 
 ## Mutator
 
-* Use the mutator tool
-* Cover the uncovered.
-* Kill the survivors.
-* Delete dead code.
+* 使用 mutator 工具。
+* 覆盖未被覆盖的代码。
+* 消灭幸存的变异体。
+* 删除死代码。
 
-## Refactoring
+## 重构
 
-* Pin what the code does.
-* Change the structure.
-* Prove the behavior did not change.
+* 先钉住代码现有的行为。
+* 再改变结构。
+* 证明行为没有变化。
 
-# Practice
+# 实践
 
-## Keep a Log
+## 记日志
 
-* Keep a log of every action you take and the reason you took it.
-* Report that log upon completion.
+* 记录你采取的每一个行动，以及采取它的理由。
+* 完成时汇报这份日志。
 
-## Guard the Context Window
+## 守护上下文窗口
 
-* Keep the main thread small.
-* Send the bulk elsewhere, and keep the summary.
+* 保持主线程精简。
+* 把大量内容派往别处，只保留摘要。
 
-## Worktree Cleanup
+## 清理工作树
 
-* Find what is safe to remove, confirm nothing still in use needs it, then reclaim the disk.
-* Uncommitted work waits for a decision.
+* 找出可以安全移除的东西，确认没有任何仍在使用的东西需要它，然后回收磁盘。
+* 未提交的工作要等一个明确的决定。
 
-## Commit and Push
+## 提交与推送
 
-* Commit often, in small ordered commits.
-* Each commit says why, what changed, and how you proved it.
-* Push to the main line at the end.
+* 频繁提交，保持提交小而有序。
+* 每个提交都说清：为什么改、改了什么、你如何证明它是对的。
+* 最后推送到主分支。
